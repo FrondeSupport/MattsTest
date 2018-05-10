@@ -12,7 +12,7 @@
  [switch] $Download
 )
 
-if (Test-Path variable:global:WindowsS3BucketCSV -and Test-Path variable:global:WindowsS3Bucket -and Test-Path variable:global:WindowsS3BucketRegion){
+if ((Test-Path variable:global:WindowsS3BucketCSV) -And (Test-Path variable:global:WindowsS3Bucket) -And (Test-Path variable:global:WindowsS3BucketRegion)){
     $S3Available = $false
 }
 
