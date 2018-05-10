@@ -176,23 +176,11 @@ Function Get-MSHotfix
     }
 }
 
+$S3Available = $true
 
 if ((Test-Path variable:global:WindowsS3BucketCSV) -And (Test-Path variable:global:WindowsS3Bucket) -And (Test-Path variable:global:WindowsS3BucketRegion)){
     $S3Available = $false
     FormatOutput "Disabling push to S3 bucket as one of the required parameters does not exist"
-}
-
-if (Test-Path variable:global:WindowsS3BucketCSV){
-    $S3Available = $false
-    FormatOutput "1"
-}
-if (Test-Path variable:global:WindowsS3Bucket){
-    $S3Available = $false
-    FormatOutput "2"
-}
-if (Test-Path variable:global:WindowsS3BucketRegion){
-    $S3Available = $false
-    FormatOutput "3"
 }
 
 
