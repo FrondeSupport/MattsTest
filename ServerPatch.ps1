@@ -34,7 +34,7 @@ $ReportCSV="C:\WindowsUpdateReport.$DATELOG.csv"
 $LogFile="C:\WindowsUpdate.$DATELOG.log"
 
 
-
+Write-host ""
 Function FrondeUpdate ($server, $Download, $ErrorLimit) {
     $LogString=''
     $intcount = 0
