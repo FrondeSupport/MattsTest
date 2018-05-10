@@ -12,9 +12,6 @@
  [switch] $Download
 )
 
-if ((Test-Path variable:global:WindowsS3BucketCSV) -And (Test-Path variable:global:WindowsS3Bucket) -And (Test-Path variable:global:WindowsS3BucketRegion)){
-    $S3Available = $false
-}
 
 #The below parameters are all passed into the script when called. no need to set them here, but here are the uses:
 ##Set the ErrorLimit to a value if you want to stop the updates for a server on x number exceptions
@@ -178,6 +175,30 @@ Function Get-MSHotfix
         }
     }
 }
+
+
+if ((Test-Path variable:global:WindowsS3BucketCSV) -And (Test-Path variable:global:WindowsS3Bucket) -And (Test-Path variable:global:WindowsS3BucketRegion)){
+    $S3Available = $false
+    FormatOutput "Disabling push to S3 bucket as one of the required parameters does not exist"
+}
+
+if (Test-Path variable:global:WindowsS3BucketCSV){
+    $S3Available = $false
+    FormatOutput "1"
+}
+if (Test-Path variable:global:WindowsS3Bucket){
+    $S3Available = $false
+    FormatOutput "2"
+}
+if (Test-Path variable:global:WindowsS3BucketRegion){
+    $S3Available = $false
+    FormatOutput "3"
+}
+
+
+
+
+
 
 if ($S3Available){
     if (Get-Module -ListAvailable -Name AWSPowerShell) {
