@@ -3,15 +3,18 @@
  [string] $server,
  [Parameter(Mandatory=$true)]
  [int] $ErrorLimit,
-  [Parameter(Mandatory=$true)]
+  [Parameter()]
  [string] $WindowsS3BucketCSV,
-  [Parameter(Mandatory=$true)]
+  [Parameter()]
  [string] $WindowsS3Bucket,
-   [Parameter(Mandatory=$true)]
+   [Parameter()]
  [string] $WindowsS3BucketRegion,
  [switch] $Download
 )
 
+if (Test-Path variable:global:WindowsS3BucketCSV -and Test-Path variable:global:WindowsS3Bucket -and Test-Path variable:global:WindowsS3BucketRegion){
+    $S3Available = $false
+}
 
 #The below parameters are all passed into the script when called. no need to set them here, but here are the uses:
 ##Set the ErrorLimit to a value if you want to stop the updates for a server on x number exceptions
@@ -176,22 +179,21 @@ Function Get-MSHotfix
     }
 }
 
-
-if (Get-Module -ListAvailable -Name AWSPowerShell) {
-    if (!(Get-Module AWSPowerShell)){
-    Import-Module AWSPowerShell
-    $S3Available = $true
+if ($S3Available){
+    if (Get-Module -ListAvailable -Name AWSPowerShell) {
+        if (!(Get-Module AWSPowerShell)){
+        Import-Module AWSPowerShell
+        $S3Available = $true
+        }
+    } else {
+            FormatOutput "AWS PowerShell is not available. This script will not copy files to S3."
+            $S3Available = $false
     }
-} else {
-        FormatOutput "AWS PowerShell is not available. This script will not copy files to S3."
-        $S3Avaiable = $false
 }
-
 
 
 FrondeUpdate $server $Download $ErrorLimit
 
-$S3Avaiable
 
 FormatOutput "Patching server completed. Now proceeding to run Windows update report"
 
