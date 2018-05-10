@@ -212,3 +212,7 @@ if($S3Available){
     FormatOutput "Uploading CSV report to S3 Bucket - $WindowsS3BucketCSV"
     Write-S3Object -BucketName $WindowsS3BucketCSV -File $ReportCSV -Key "$DATELOG\WindowsUpdateReport_$server.$DATELOG.csv" -CannedACLName bucket-owner-read -Region $WindowsS3BucketRegion
 }
+
+FormatOutput "Process completed!"
+
+Write-host ""
